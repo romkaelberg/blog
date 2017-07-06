@@ -1,0 +1,88 @@
+<?php
+require_once("modules/check_user.php");
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+        <title>Загрузить файлы | Flea cms</title>
+         <link rel="shortcut icon" href="icons/logo.png" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="../styles/css/style.css">
+        <link rel="stylesheet" type="text/css" href="../styles/sm/semantic.css">
+        <script type="text/javascript" src="../styles/sm/jquery.js"></script>
+        <script src="../modules/add_ajax.js"></script>
+        <script src="../modules/delete_ajax.js"></script>
+        <script src="../styles/sm/semantic.min.js"></script>
+        <script src="../modules/ckeditor/ckeditor.js"></script>
+    </head>
+    <body>
+        <div class="ui left demo vertical inverted sidebar labeled icon menu">
+                <a href="../pages.php" class="item">
+                    <i class="home icon"></i>
+                        Главная
+                      </a>
+                      <a href = "../users.php" class="item">
+                            <i class="block users icon"></i>
+                                Пользователи
+                      </a>
+                      <a href = "../upload/upload.html" class="active item">
+                            <i class="upload icon"></i>
+                                Загрузить файлы
+                      </a>
+                      <a href = "../phpinfo.php" class="item">
+                            <i class="hashtag icon"></i>
+                                Информация о php
+                      </a>
+                      <a class = "disabled item" class="item">
+                         <i class="folder icon"></i>
+                         Директории
+                      </a>
+                      <a class = " disabled item" class="item">
+                         <i class="folder icon"></i>
+                          Перейти к директории
+                      </a>
+                      <a class = "disabled item" class="item">
+                         <i class="angellist icon"></i>
+                         Соцсети
+                      </a>
+        </div>
+        <div class="pusher">
+            <div class="ui inverted menu">
+                <div class="item" id="btn_menu"><i class="content icon"></i></div>
+                    <div class="header item" id="brnd">Загрузить файлы</div>
+                <div class="right menu">
+                    <div style="color:white;padding-right: 20px;padding-top:10px;">
+                        <div class="ui floating dropdown">
+                          <?php echo @$_COOKIE['test'];?> <i class="dropdown icon"></i>
+                          <div class="menu">
+                              <p style="color:black;padding:20px;">Вы вошли как <?php echo @$_COOKIE['test'];?></p>
+                              <p style="color:black;padding-left:20px;">Действия:</p>
+                              <a sryle="text-align:center;" href = "../lk.php" class="item">Личный кабинет</a>
+                              <a sryle="text-align:center;" href = "../modules/logout.php" class="item">Выйти</a>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui main text container">
+              <div class="ui info message">
+                <div class="header">
+                  Загрузить файлы
+                </div>
+                <p>Файл не должен превышать 2Мб</p>
+                <p>Допуcтимый формат файлов : png,jpg,jpeg</p>
+                <div class="upload_div">
+                  <form action="upload.php" method="post" enctype="multipart/form-data">
+                      <input type=file name="uploadfile"  ng-model="result_from_server" percent-completed="percent">
+                      <button type="submit" class="ui mini inverted green button">Загрузить!</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>
+        <script src = "../styles/js/anim.js"></script>
+    </body>
+</html>
