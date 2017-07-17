@@ -1,8 +1,0 @@
-<?php
-		require_once("conf.php");
-    try {
-    	$dbh = new PDO('mysql:host=localhost;dbname=mydb',root, 1);
-} catch (PDOException $e) {
-    echo $e->getMessage();
-}
-?>
