@@ -1,49 +1,50 @@
 <?php
-$response_array = [
-    "status" => "",
-    "description" => ""
-];
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+//зависимости
+require_once ("methods.php");
 require_once ("config_parser.php");
+//данные для подключения к бд
 $DB_login = $config_array->DB_login;
 $DB_password = $config_array->DB_password;
-
+//подключение к бд
 try {
     $dbc = new PDO('mysql:host=localhost;dbname=admin', $DB_login, $DB_password);
 } catch (PDOException $e) {
     echo $e->getMessage();
 }
-
+//режим api
 $mode= $_GET['mode'];
-if($mode=="authorize"){
+//режимы
+if($mode == "authorize"){
     $login = $_GET['login'];
     $password = $_GET['password'];
-    $dbq = $dbc->prepare("SELECT * FROM users WHERE login=?");
-    $dbq->execute([$login]);
-    $user_data = $dbq->fetchAll();
-    $login_counter = $dbq->rowCount();
-    foreach ($user_data as $value) {
-        $user_password_in_db = $value['pass'];
-    }
-    $hash_password = sha1($password);
-    if($login_counter == 1 && $user_password_in_db == $hash_password) {
-        $response_array["status"] = "ok";
-        echo json_encode($response_array);
-    }else {
-        $response_array["status"] = "error";
-        echo json_encode($response_array);
-    }
 }
-if($mode == "authorize/check_session") {
-    $client_session = $_GET['client_session'];
-    $dbq = $dbc->prepare("SELECT * FROM users WHERE session_id=?");
-    $dbq->execute([$client_session]);
-    $user_data = $dbq->fetchAll();
-    $db_session_counter = $dbq->rowCount();
-    if ($db_session_counter == 1) {
-        $response_array["status"] = "ok";
-        echo json_encode($response_array);
-    }else {
-        $response_array["status"] = "error";
-        echo json_encode($response_array);
-    }
+if($mode == "get_user_info") {
+    $CLIENT_key = $_GET['key'];
+    $user_info = json_encode(GET_user_info($CLIENT_key,$dbc));
+    echo $user_info;
+}
+if($mode == "get_pages_list") {
+    $CLIENT_key = $_GET['key'];
+    $pages_list = json_encode(GET_pages_list($CLIENT_key,$dbc));
+    echo $pages_list;
+}
+if($mode == "get_page_content") {
+    $CLIENT_key = $_GET['key'];
+    $page_id = $_GET['page_id'];
+    $page_content = json_encode(GET_page_content($CLIENT_key,$dbc,$page_id));
+    echo $page_content;
+}
+if($mode == "delete_page") {
+    $CLIENT_key = $_GET['key'];
+    $page_id = $_GET['page_id'];
+    echo DELETE_page($CLIENT_key,$dbc,$page_id);
+}
+if($mode == "add_page") {
+    $CLIENT_key = $_GET['key'];
+    $name = $_GET['name'];
+    $content = $_GET['content'];
+    echo ADD_page($CLIENT_key,$dbc,$name,$content);
 }
